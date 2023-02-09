@@ -4,7 +4,7 @@ import org.training.bookspring.model.Book;
 
 import java.util.List;
 
-public interface IBookService {
+public interface BookService {
     //add function
     public Book add(Book book);
     //update function

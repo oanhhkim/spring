@@ -7,7 +7,7 @@ import org.training.bookspring.repository.BookRepository;
 
 import java.util.List;
 @Service
-public class BookServiceImpl implements IBookService{
+public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
     @Override
