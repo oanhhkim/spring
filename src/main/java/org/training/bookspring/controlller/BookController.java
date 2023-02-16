@@ -8,26 +8,26 @@ import org.training.bookspring.service.BookService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api.demo.org/api/book")
+@RequestMapping("/api/v1/book")
 public class BookController {
     @Autowired
     private BookService iBookService;
     @GetMapping("/")
 
-    @PostMapping("/add-new-book")
+    @PostMapping
     public Book add(@RequestBody Book book){
         return iBookService.add(book);
     }
-    @PutMapping("/update-book")
+    @PutMapping
     public Book update(@RequestParam("id") String id, @RequestBody Book book){
         return iBookService.update(id, book);
     }
-    @DeleteMapping("/delete-book/{id}")
+    @DeleteMapping("/{id}")
     public boolean delete(@PathVariable("id") String id){
         return iBookService.delete(id);
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<Book> getAll(){
         return iBookService.getAll();
     }
