@@ -1,5 +1,6 @@
 package com.java.spring.books.service.impl;
 
+import com.java.spring.books.dto.request.BookRequest;
 import com.java.spring.books.entity.Book;
 import com.java.spring.books.repository.IBookRepository;
 import com.java.spring.books.service.IBookService;
@@ -17,6 +18,17 @@ public class BookImpl implements IBookService {
 
   @Override
   public Book create(Book book) {
+    return bookRepository.save(book);
+  }
+
+  @Override
+  public Book create(BookRequest request) {
+    Book book = new Book();
+    book.setTitle(request.getTitle());
+    book.setAuthor(request.getAuthor());
+    book.setCategory(request.getCategory());
+    book.setPublisher(request.getPublisher());
+    book.setPublishTime(request.getPublishTime());
     return bookRepository.save(book);
   }
 
