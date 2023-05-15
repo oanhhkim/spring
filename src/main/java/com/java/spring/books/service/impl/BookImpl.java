@@ -1,9 +1,10 @@
 package com.java.spring.books.service.impl;
 
 import com.java.spring.books.dto.request.BookRequest;
+import com.java.spring.books.dto.response.BookResponse;
 import com.java.spring.books.entity.Book;
-import com.java.spring.books.repository.IBookRepository;
-import com.java.spring.books.service.IBookService;
+import com.java.spring.books.repository.BookRepository;
+import com.java.spring.books.service.BookService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 
-public class BookImpl implements IBookService {
+public class BookImpl implements BookService {
 
   @Autowired
-  private IBookRepository bookRepository;
+  private BookRepository bookRepository;
 
   @Override
   public Book create(Book book) {
