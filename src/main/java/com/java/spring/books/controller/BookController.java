@@ -32,17 +32,11 @@ public class BookController {
   @Autowired
   private BookRepository bookRepository;
 
-  //  @PostMapping
-//  public ResponseEntity<Book> create(@RequestBody Book book) {
-//    Book save = bookService.create(book);
-//    return new ResponseEntity<>(save, HttpStatus.CREATED);
-//  }
-  //TODO: convert entity to dto
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public BookResponse create(@Validated @RequestBody BookRequest request) {
     bookService.create(request);
-    return BookResponse.toBookRequest(book);
+    return BookResponse(bookService.create(request), HttpStatus.CREATED);
   }
 
   @GetMapping

@@ -18,45 +18,41 @@ public class BookImpl implements BookService {
   private BookRepository bookRepository;
 
   @Override
-  public Book create(Book book) {
-    return bookRepository.save(book);
-  }
-
-  @Override
-  public Book create(BookRequest request) {
-    Book book = new Book();
-    book.setTitle(request.getTitle());
-    book.setAuthor(request.getAuthor());
-    book.setCategory(request.getCategory());
-    book.setPublisher(request.getPublisher());
-    book.setPublishTime(request.getPublishTime());
-    return bookRepository.save(book);
+  public BookResponse create(BookRequest request) {
+    // create book entity from request
+    Book book = Book.from(request);
+    book = create(book);
+    // save book into db
+    bookRepository.save(book);
+    // create book response from book entity
+    BookResponse response = new BookResponse();
+    response.setId(book.getId());
+    response.setTitle(book.getTitle());
+    response.setAuthor(book.getAuthor());
+    response.setCategory(book.getCategory());
+    response.setPublisher(book.getPublisher());
+    response.setPublishTime(book.getPublishTime());
+    // return book response
+    return response;
   }
 
   @Override
   public List<Book> getAll() {
-    return bookRepository.findAll();
+    return null;
   }
 
   @Override
   public Book getOneById(Long id) {
-    Optional<Book> book = bookRepository.findById(id);
-    return book.get();
+    return null;
   }
 
   @Override
   public Book update(Book book) {
-    Book existBook = bookRepository.findById(book.getId()).get();
-    existBook.setTitle(book.getTitle());
-    existBook.setAuthor(book.getAuthor());
-    existBook.setCategory(book.getCategory());
-    existBook.setPublisher(book.getPublisher());
-    existBook.setPublishTime(book.getPublishTime());
-    return bookRepository.save(existBook);
+    return null;
   }
 
   @Override
   public void delete(Long id) {
-    bookRepository.deleteById(id);
+
   }
 }

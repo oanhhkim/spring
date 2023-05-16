@@ -1,6 +1,7 @@
 package com.java.spring.books.dto.response;
 
 import com.java.spring.books.entity.Book;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,20 +10,20 @@ import lombok.NoArgsConstructor;
 
 public class BookResponse {
 
-  private Long id;
+  private String id;
   private String title;
   private String author;
   private String category;
   private String publisher;
   private Long publishTime;
 
-  public BookResponse toBookRequest(Book book) {
+  public BookResponse from(Book book) {
     BookResponse response = new BookResponse();
     response.setId(book.getId());
     response.setTitle(book.getTitle());
     response.setAuthor(book.getAuthor());
-    response.setPublisher(book.getPublisher());
     response.setCategory(book.getCategory());
+    response.setPublisher(book.getPublisher());
     response.setPublishTime(book.getPublishTime());
     return response;
   }
