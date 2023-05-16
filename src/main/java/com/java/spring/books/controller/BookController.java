@@ -35,11 +35,11 @@ public class BookController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public BookResponse create(@Validated @RequestBody BookRequest request) {
-    bookService.create(request);
-    return BookResponse(bookService.create(request), HttpStatus.CREATED);
+    return bookService.create(request);
   }
 
   @GetMapping
+
   public ResponseEntity<List<Book>> getAll() {
     List<Book> books = bookService.getAll();
     return new ResponseEntity<>(books, HttpStatus.OK);

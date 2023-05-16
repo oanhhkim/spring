@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookRequest {
 
-  private String id;
   private String title;
   private String author;
   private String category;

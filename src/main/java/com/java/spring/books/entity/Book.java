@@ -79,7 +79,6 @@ public class Book {
 
   public static Book from(BookRequest request) {
     Book book = new Book();
-    book.setId(request.getId());
     book.setTitle(request.getTitle());
     book.setAuthor(request.getAuthor());
     book.setCategory(request.getCategory());

@@ -21,9 +21,8 @@ public class BookImpl implements BookService {
   public BookResponse create(BookRequest request) {
     // create book entity from request
     Book book = Book.from(request);
-    book = create(book);
     // save book into db
-    bookRepository.save(book);
+    book = bookRepository.save(book);
     // create book response from book entity
     BookResponse response = new BookResponse();
     response.setId(book.getId());
