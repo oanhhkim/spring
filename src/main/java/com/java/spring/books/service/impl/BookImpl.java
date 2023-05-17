@@ -36,6 +36,11 @@ public class BookImpl implements BookService {
   }
 
   @Override
+  public void deleteById(String id) {
+    bookRepository.deleteById(id);
+  }
+
+  @Override
   public List<Book> getAll() {
     return null;
   }
@@ -48,10 +53,5 @@ public class BookImpl implements BookService {
   @Override
   public Book update(Book book) {
     return null;
-  }
-
-  @Override
-  public void delete(Long id) {
-
   }
 }

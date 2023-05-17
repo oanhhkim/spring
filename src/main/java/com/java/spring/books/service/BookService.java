@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface BookService {
 
- BookResponse create(BookRequest request);
- //TODO: create book entity from request. Then convert book entity to book response
+  BookResponse create(BookRequest request);
 
   List<Book> getAll();
 
@@ -17,6 +16,6 @@ public interface BookService {
 
   Book update(Book book);
 
-  void delete(Long id);
+  void deleteById(String id);
 
 }
