@@ -36,22 +36,59 @@ public class BookImpl implements BookService {
   }
 
   @Override
-  public void deleteById(String id) {
-    bookRepository.deleteById(id);
+  public void deleteById(long id) {
+    bookRepository.deleteById(String.valueOf(id));
   }
 
   @Override
-  public List<Book> getAll() {
-    return null;
+  public List<BookResponse> getAll() {
+    List<Book> list = bookRepository.findAll();
+    BookResponse response = new BookResponse();
+    for (Book book : list) {
+      response.setId(book.getId());
+      response.setTitle(book.getTitle());
+      response.setAuthor(book.getAuthor());
+      response.setCategory(book.getCategory());
+      response.setPublisher(book.getPublisher());
+      response.setPublishTime(book.getPublishTime());
+    }
+    return (List<BookResponse>) response;
   }
 
   @Override
-  public Book getOneById(Long id) {
-    return null;
+  public BookResponse getOneById(Long id) {
+    Optional<Book> book = bookRepository.findById(String.valueOf(id));
+    BookResponse response = new BookResponse();
+    response.setId(book.get().getId());
+    response.setTitle(book.get().getTitle());
+    response.setAuthor(book.get().getAuthor());
+    response.setCategory(book.get().getCategory());
+    response.setPublisher(book.get().getPublisher());
+    response.setPublishTime(book.get().getPublishTime());
+    // return book response
+    return response;
+
   }
 
   @Override
-  public Book update(Book book) {
-    return null;
+  public BookResponse update(BookRequest request, long id) {
+    Optional<Book> book = bookRepository.findById(String.valueOf(id));
+    Book bookUpdate = Book.from(request);
+    BookResponse response = new BookResponse();
+    bookUpdate.setId(book.get().getId());
+    bookUpdate.setTitle(book.get().getTitle());
+    bookUpdate.setAuthor(book.get().getAuthor());
+    bookUpdate.setCategory(book.get().getCategory());
+    bookUpdate.setPublisher(book.get().getPublisher());
+    bookUpdate.setPublishTime(book.get().getPublishTime());
+    // convert entity updateBook to response
+    response.setId(bookUpdate.getId());
+    response.setTitle(bookUpdate.getTitle());
+    response.setAuthor(bookUpdate.getAuthor());
+    response.setCategory(bookUpdate.getCategory());
+    response.setPublisher(bookUpdate.getPublisher());
+    response.setPublishTime(bookUpdate.getPublishTime());
+    return response;
   }
 }
+

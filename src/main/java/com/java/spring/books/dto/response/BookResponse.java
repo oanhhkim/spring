@@ -2,7 +2,7 @@ package com.java.spring.books.dto.response;
 
 public class BookResponse {
 
-  private String id;
+  private long id;
   private String title;
   private String author;
   private String category;
@@ -12,7 +12,7 @@ public class BookResponse {
   public BookResponse() {
   }
 
-  public BookResponse(String id, String title, String author, String category, String publisher,
+  public BookResponse(long id, String title, String author, String category, String publisher,
       Long publishTime) {
     this.id = id;
     this.title = title;
@@ -22,11 +22,11 @@ public class BookResponse {
     this.publishTime = publishTime;
   }
 
-  public String getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(long id) {
     this.id = id;
   }
 

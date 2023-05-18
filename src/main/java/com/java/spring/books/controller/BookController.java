@@ -39,28 +39,26 @@ public class BookController {
   }
 
   @GetMapping
-
-  public ResponseEntity<List<Book>> getAll() {
-    List<Book> books = bookService.getAll();
-    return new ResponseEntity<>(books, HttpStatus.OK);
+  @ResponseStatus(HttpStatus.OK)
+  public List<BookResponse> getAll() {
+    return (List<BookResponse>) bookService.getAll();
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<Book> getOneById(@PathVariable("id") Long id) {
-    Book book = bookService.getOneById(id);
-    return new ResponseEntity<>(book, HttpStatus.OK);
+  @ResponseStatus(HttpStatus.OK)
+  public BookResponse getOneById(@PathVariable("id") Long id) {
+    return bookService.getOneById(id);
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<Book> update(@PathVariable("id") Long id, @RequestBody Book book) {
-    Book existBook = bookService.getOneById(id);
-    bookService.update(book);
-    return new ResponseEntity<>(book, HttpStatus.OK);
+  @ResponseStatus(HttpStatus.OK)
+  public BookResponse update(@RequestBody BookRequest request, @PathVariable("id") Long id) {
+    return bookService.update(request, id);
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable("id") Long id) {
-    bookService.deleteById(String.valueOf(id));
+    bookService.deleteById(Long.parseLong(String.valueOf(id)));
   }
 }

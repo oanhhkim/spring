@@ -14,7 +14,7 @@ public class Book {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private String id;
+  private long id;
   @Column(nullable = false)
   private String title;
   @Column(nullable = false)
@@ -29,11 +29,11 @@ public class Book {
   public Book() {
   }
 
-  public String getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(long id) {
     this.id = id;
   }
 
