@@ -5,6 +5,7 @@ import com.java.spring.books.dto.response.BookResponse;
 import com.java.spring.books.entity.Book;
 import com.java.spring.books.repository.BookRepository;
 import com.java.spring.books.service.BookService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +38,29 @@ public class BookImpl implements BookService {
 
   @Override
   public void deleteById(long id) {
-    bookRepository.deleteById(String.valueOf(id));
+    bookRepository.deleteById(id);
   }
 
   @Override
   public List<BookResponse> getAll() {
     List<Book> list = bookRepository.findAll();
-    BookResponse response = new BookResponse();
+    List<BookResponse> response = new ArrayList<>();
     for (Book book : list) {
-      response.setId(book.getId());
-      response.setTitle(book.getTitle());
-      response.setAuthor(book.getAuthor());
-      response.setCategory(book.getCategory());
-      response.setPublisher(book.getPublisher());
-      response.setPublishTime(book.getPublishTime());
+      BookResponse bookResponse = new BookResponse();
+      bookResponse.setId(book.getId());
+      bookResponse.setTitle(book.getTitle());
+      bookResponse.setAuthor(book.getAuthor());
+      bookResponse.setCategory(book.getCategory());
+      bookResponse.setPublisher(book.getPublisher());
+      bookResponse.setPublishTime(book.getPublishTime());
+      response.add(bookResponse);
     }
-    return (List<BookResponse>) response;
+    return response;
   }
 
   @Override
   public BookResponse getOneById(Long id) {
-    Optional<Book> book = bookRepository.findById(String.valueOf(id));
+    Optional<Book> book = bookRepository.findById(id);
     BookResponse response = new BookResponse();
     response.setId(book.get().getId());
     response.setTitle(book.get().getTitle());
@@ -72,22 +75,23 @@ public class BookImpl implements BookService {
 
   @Override
   public BookResponse update(BookRequest request, long id) {
-    Optional<Book> book = bookRepository.findById(String.valueOf(id));
-    Book bookUpdate = Book.from(request);
+    Optional<Book> optionalBook = bookRepository.findById(id);
+    if (!optionalBook.isPresent()) {
+      throw new RuntimeException();
+    }
+    Book book = optionalBook.get();
+    book.setTitle(request.getTitle());
+    book.setAuthor(request.getAuthor());
+    book.setCategory(request.getCategory());
+    book.setPublisher(request.getPublisher());
+    book.setPublishTime(request.getPublishTime());
     BookResponse response = new BookResponse();
-    bookUpdate.setId(book.get().getId());
-    bookUpdate.setTitle(book.get().getTitle());
-    bookUpdate.setAuthor(book.get().getAuthor());
-    bookUpdate.setCategory(book.get().getCategory());
-    bookUpdate.setPublisher(book.get().getPublisher());
-    bookUpdate.setPublishTime(book.get().getPublishTime());
-    // convert entity updateBook to response
-    response.setId(bookUpdate.getId());
-    response.setTitle(bookUpdate.getTitle());
-    response.setAuthor(bookUpdate.getAuthor());
-    response.setCategory(bookUpdate.getCategory());
-    response.setPublisher(bookUpdate.getPublisher());
-    response.setPublishTime(bookUpdate.getPublishTime());
+    response.setId(book.getId());
+    response.setTitle(book.getTitle());
+    response.setAuthor(book.getAuthor());
+    response.setCategory(book.getCategory());
+    response.setPublisher(book.getPublisher());
+    response.setPublishTime(book.getPublishTime());
     return response;
   }
 }

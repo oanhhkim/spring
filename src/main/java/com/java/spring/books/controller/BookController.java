@@ -8,6 +8,7 @@ import com.java.spring.books.service.BookService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -41,7 +42,7 @@ public class BookController {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<BookResponse> getAll() {
-    return (List<BookResponse>) bookService.getAll();
+    return bookService.getAll();
   }
 
   @GetMapping("{id}")
@@ -59,6 +60,6 @@ public class BookController {
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable("id") Long id) {
-    bookService.deleteById(Long.parseLong(String.valueOf(id)));
+    bookService.deleteById(id);
   }
 }
