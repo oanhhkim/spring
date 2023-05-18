@@ -2,15 +2,12 @@ package com.java.spring.books.controller;
 
 import com.java.spring.books.dto.request.BookRequest;
 import com.java.spring.books.dto.response.BookResponse;
-import com.java.spring.books.entity.Book;
 import com.java.spring.books.repository.BookRepository;
 import com.java.spring.books.service.BookService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
