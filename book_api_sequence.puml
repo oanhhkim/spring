@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+client -> controller: send request UpdateOneBook
+note over controller
+Http Method: PUT
+URL: /api/v1/books/id
+Body:
+{
+@NotBlank
+"title":"xxxx",
+@NotBlank
+"author":"xxxx"
+}
+end note
+controller-> service: check the id exist and validate the request
+service-> service: update one book
+note over service
+1. find the book by id
+2. find the attribute having new value
+3. replace the old value by new one
+4. save the entity book
+5. map the book to response
+end note
+service-->controller: return BookResponse
+controller--> client: return BookResponse and status 200 OK
+@enduml
