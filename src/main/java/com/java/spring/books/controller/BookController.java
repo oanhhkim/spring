@@ -2,11 +2,13 @@ package com.java.spring.books.controller;
 
 import com.java.spring.books.dto.request.BookRequest;
 import com.java.spring.books.dto.response.BookResponse;
+import com.java.spring.books.entity.Book;
 import com.java.spring.books.repository.BookRepository;
 import com.java.spring.books.service.BookService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,5 +60,11 @@ public class BookController {
   @ResponseStatus(HttpStatus.OK)
   public void delete(@PathVariable("id") Long id) {
     bookService.deleteById(id);
+  }
+
+  @RequestMapping("/{pageNumber}/{pageSize}")
+  public Page<Book> bookPagination(@PathVariable Integer pageNumber,
+      @PathVariable Integer pageSize) {
+    return bookService.getBookPagination(pageNumber, pageSize);
   }
 }

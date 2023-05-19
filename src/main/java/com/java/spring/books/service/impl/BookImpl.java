@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -93,6 +96,11 @@ public class BookImpl implements BookService {
     response.setPublisher(book.getPublisher());
     response.setPublishTime(book.getPublishTime());
     return response;
+  }
+  @Override
+  public Page<Book> getBookPagination(Integer pageNumber, Integer pageSize) {
+    Pageable page = PageRequest.of(pageNumber, pageSize);
+    return bookRepository.findAll(page);
   }
 }
 
