@@ -2,6 +2,7 @@ package com.java.spring.books.service.impl;
 
 import com.java.spring.books.dto.request.BookRequest;
 import com.java.spring.books.dto.response.BookResponse;
+import com.java.spring.books.dto.response.PageResponse;
 import com.java.spring.books.entity.Book;
 import com.java.spring.books.repository.BookRepository;
 import com.java.spring.books.service.BookService;
@@ -42,6 +43,15 @@ public class BookImpl implements BookService {
   @Override
   public void deleteById(long id) {
     bookRepository.deleteById(id);
+  }
+
+  @Override
+  public PageResponse getBookPagination(int pageNumber, int pageSize) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    Page<Book> bookPage = bookRepository.findAll(pageable);
+    PageResponse response = new PageResponse((List<Book>) bookPage.getContent(), bookPage.getNumber(),
+        bookPage.getSize(), bookPage.getTotalPages());
+    return response;
   }
 
   @Override
@@ -97,10 +107,10 @@ public class BookImpl implements BookService {
     response.setPublishTime(book.getPublishTime());
     return response;
   }
-  @Override
-  public Page<Book> getBookPagination(Integer pageNumber, Integer pageSize) {
-    Pageable page = PageRequest.of(pageNumber, pageSize);
-    return bookRepository.findAll(page);
-  }
+//  @Override
+//  public Page<Book> getBookPagination(int pageNumber, int pageSize) {
+//    Pageable page = PageRequest.of(pageNumber, pageSize);
+//    return bookRepository.findAll(page);
+//  }
 }
 

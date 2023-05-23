@@ -2,6 +2,7 @@ package com.java.spring.books.controller;
 
 import com.java.spring.books.dto.request.BookRequest;
 import com.java.spring.books.dto.response.BookResponse;
+import com.java.spring.books.dto.response.PageResponse;
 import com.java.spring.books.entity.Book;
 import com.java.spring.books.repository.BookRepository;
 import com.java.spring.books.service.BookService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,9 +64,15 @@ public class BookController {
     bookService.deleteById(id);
   }
 
-  @RequestMapping("/{pageNumber}/{pageSize}")
-  public Page<Book> bookPagination(@PathVariable Integer pageNumber,
-      @PathVariable Integer pageSize) {
+  // @GetMapping("/paging")
+//  public Page<Book> bookPagination(@RequestParam(defaultValue = "0") Integer pageNumber,
+//      @RequestParam(defaultValue = "2") Integer pageSize) {
+//    return bookService.getBookPagination(pageNumber, pageSize);
+//  }
+  @GetMapping("/paging")
+  @ResponseStatus(HttpStatus.OK)
+  public PageResponse bookPagingation(@RequestParam Integer pageNumber,
+      @RequestParam Integer pageSize) {
     return bookService.getBookPagination(pageNumber, pageSize);
   }
 }
