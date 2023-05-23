@@ -72,7 +72,7 @@ public class BookController {
   @GetMapping("/paging")
   @ResponseStatus(HttpStatus.OK)
   public PageResponse bookPagingation(@RequestParam Integer pageNumber,
-      @RequestParam Integer pageSize) {
-    return bookService.getBookPagination(pageNumber, pageSize);
+      @RequestParam Integer pageSize, @RequestParam String sortBy) {
+    return bookService.getBookPagination(pageNumber, pageSize, sortBy);
   }
 }

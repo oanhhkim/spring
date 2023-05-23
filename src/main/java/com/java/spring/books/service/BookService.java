@@ -21,5 +21,5 @@ public interface BookService {
 
 //  Page<Book> getBookPagination(int pageNumber, int pageSize);
 
-  PageResponse getBookPagination(int pageNumber, int pageSize);
+  PageResponse getBookPagination(int pageNumber, int pageSize, String sortBy);
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,8 +47,8 @@ public class BookImpl implements BookService {
   }
 
   @Override
-  public PageResponse getBookPagination(int pageNumber, int pageSize) {
-    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+  public PageResponse getBookPagination(int pageNumber, int pageSize, String sortBy) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
     Page<Book> bookPage = bookRepository.findAll(pageable);
     PageResponse response = new PageResponse((List<Book>) bookPage.getContent(), bookPage.getNumber(),
         bookPage.getSize(), bookPage.getTotalPages());
