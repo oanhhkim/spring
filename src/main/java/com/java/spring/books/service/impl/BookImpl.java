@@ -4,6 +4,7 @@ import com.java.spring.books.dto.request.BookRequest;
 import com.java.spring.books.dto.response.BookResponse;
 import com.java.spring.books.dto.response.PageResponse;
 import com.java.spring.books.entity.Book;
+import com.java.spring.books.exception.NotFoundException;
 import com.java.spring.books.repository.BookRepository;
 import com.java.spring.books.service.BookService;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class BookImpl implements BookService {
   public PageResponse getBookPagination(int pageNumber, int pageSize, String sortBy) {
     Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
     Page<Book> bookPage = bookRepository.findAll(pageable);
-    PageResponse response = new PageResponse((List<Book>) bookPage.getContent(), bookPage.getNumber(),
+    PageResponse response = new PageResponse(bookPage.getContent(), bookPage.getNumber(),
         bookPage.getSize(), bookPage.getTotalPages());
     return response;
   }
@@ -91,7 +92,7 @@ public class BookImpl implements BookService {
   public BookResponse update(BookRequest request, long id) {
     Optional<Book> optionalBook = bookRepository.findById(id);
     if (!optionalBook.isPresent()) {
-      throw new RuntimeException();
+      throw new NotFoundException("Không thấy cuốn sách bạn muốn tìm");
     }
     Book book = optionalBook.get();
     book.setTitle(request.getTitle());
