@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -92,7 +93,7 @@ public class BookImpl implements BookService {
   public BookResponse update(BookRequest request, long id) {
     Optional<Book> optionalBook = bookRepository.findById(id);
     if (!optionalBook.isPresent()) {
-      throw new NotFoundException("Không thấy cuốn sách bạn muốn tìm");
+      throw new NotFoundException(id);
     }
     Book book = optionalBook.get();
     book.setTitle(request.getTitle());
