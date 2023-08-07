@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
-  public String greeting(){
-    log.info("(greeting)");
-    return "Welcome to my chanel!";
+  public String goodbye(){
+    return "Say GoodBye";
   }
 }
