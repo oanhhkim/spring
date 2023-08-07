@@ -14,7 +14,6 @@ public class Controller {
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public String greeting(){
-    log.info("(greeting)");
-    return "Welcome to my chanel!";
+    return "Say Hello";
   }
 }
