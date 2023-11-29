@@ -48,13 +48,18 @@ public class ProductController {
 		List<ProductDTO> listAllProductDTO = ProductService.getAllProduct().stream().map(e -> e.toDTO())
 				.collect(Collectors.toList());
 
-		int pageNumber = listAllProductDTO.size() / 8;
+		int pageNumber = listAllProductDTO.size() / 8 + 1;
 
 		List<List<ProductDTO>> listPage = new ArrayList<List<ProductDTO>>();
 		int index = 0;
 
 		for (int i = 0; i < pageNumber; i++) {
-			List<ProductDTO> res = listAllProductDTO.subList(index, index + 8);
+			List<ProductDTO> res;
+			if (index + 8 > listAllProductDTO.size()) {
+				res = listAllProductDTO.subList(index, listAllProductDTO.size());
+			} else {
+				res = listAllProductDTO.subList(index, index + 8);
+			}
 			listPage.add(res);
 			index += 8;
 		}

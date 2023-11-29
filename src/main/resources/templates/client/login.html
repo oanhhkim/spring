@@ -72,14 +72,15 @@
 									<form class="row contact_form" th:action="@{/login}"
 										method="post" th:object="${userDTO}" novalidate="novalidate">
 										<div class="col-md-12 form-group p_star">
-											<input type="email" class="form-control" id="email"
-												name="email" value="" th:field="*{email}"
-												placeholder="Email">
+											<label for="username">Username</label>
+											<input type="email" class="form-control" id="username"
+																				 name="username" value=""
+																				 placeholder="Username">
 										</div>
 										<div class="col-md-12 form-group p_star">
+											<label for="password">Password</label>
 											<input type="password" class="form-control" id="password"
-												name="password" value="" th:field="*{password}"
-												placeholder="Password">
+												name="password" value="" placeholder="Password">
 										</div>
 										<div class="col-md-12 form-group">
 											<div class="creat_account d-flex align-items-center">
@@ -96,6 +97,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 		</section>
 		<div class="shop-method-area">
 			<div class="container">

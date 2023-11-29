@@ -19,6 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
 	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -41,16 +44,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/admin/plugins/**", "/admin/dist/**")
 		.permitAll()
 		.antMatchers("/admin/**").hasRole("ADMIN")
-		.and().formLogin().loginPage("/admin/login")
-		.defaultSuccessUrl("/admin")
+		.and().formLogin().loginPage("/login")
 		.usernameParameter("username")
 		.passwordParameter("password")
+				.successHandler(loginSuccessHandler)
 		.permitAll() 
 		.and().logout()
 		.invalidateHttpSession(true)
 		.clearAuthentication(true)
-		.logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
-		.logoutSuccessUrl("/admin/login?logout")
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/login?logout")
 		.permitAll();
 	
 	}

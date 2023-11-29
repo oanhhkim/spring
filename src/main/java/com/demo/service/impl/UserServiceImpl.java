@@ -4,6 +4,7 @@ import static com.demo.models.ERole.ROLE_USER;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,14 +53,14 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		User user = userRepository.findByEmail(username);
+		User user = userRepository.findByUsername(username);
 		
 		if (user == null)
 			throw new UsernameNotFoundException("Invalid Username or Password");
 		
 		return new org.springframework.security.core.userdetails.User(
-					user.getEmail(), user.getPassword(), 
-					mapRolesToAuthorities(new HashSet<Role>(Arrays.asList(user.getRole())))
+					user.getUsername(), user.getPassword(),
+					mapRolesToAuthorities(new HashSet<>(Collections.singletonList(user.getRole())))
 				);
 		
 	}

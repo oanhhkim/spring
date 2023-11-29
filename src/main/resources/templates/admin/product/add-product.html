@@ -83,7 +83,7 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="">Product name</label> <input th:field="*{name}"
-									type="text" class="form-control" id=""
+									type="text" class="form-control" id="name"
 									placeholder="Enter product name" required>
 							</div>
 							<div class="form-group">
@@ -95,12 +95,12 @@
 							</div>
 							<div class="form-group">
 								<label for="">Quantity</label> <input th:field="*{quantity}"
-									type="number" class="form-control" id=""
+									type="number" class="form-control" id="quantity"
 									placeholder="Enter category quantity" required>
 							</div>
 							<div class="form-group">
 								<label for="">Price</label> <input th:field="*{price}"
-									type="number" class="form-control" id=""
+									type="number" class="form-control" id="price"
 									placeholder="Enter category price" required>
 							</div>
 							<div class="form-group">
@@ -114,15 +114,23 @@
 								<div class="input-group">
 									<div class="custom-file">
 										<input type="file" name="pictureFile" class="custom-file-input"
-											id="exampleInputFile" required> <label
+											id="exampleInputFile" onchange="chooseFile(this)" required> <label
 											class="custom-file-label" for="exampleInputFile">Choose
 											file</label>
 									</div>
-									<div class="input-group-append">
-										<span class="input-group-text">Upload</span>
-									</div>
 								</div>
 							</div>
+							<script>
+								function chooseFile(fileInput) {
+									if (fileInput.files && fileInput.files[0]) {
+										var reader = new FileReader();
+										reader.onload = function (e) {
+											$('#image').attr('src', e.target.result)
+										}
+										reader.readAsDataURL(fileInput.files[0]);
+									}
+								}
+							</script>
 
 						</div>
 						<!-- /.card-body -->

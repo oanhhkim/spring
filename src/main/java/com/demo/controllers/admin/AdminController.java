@@ -25,27 +25,7 @@ public class AdminController {
 	public String adminHome(Model model) {
 		return "admin/home";
 	}
-	
-	@GetMapping("/login")
-	public String adminLogin() {
-		return "admin/login";
-	}
-	
-	@GetMapping("/register")
-	public String adminRegisterGet(Model model) {
-		model.addAttribute("user", new UserDTO());
-		return "admin/register";
-	}
-	
-	@PostMapping("/register")
-	public String adminRegisterPost(@ModelAttribute(name = "user") 
-		UserDTO userDTO) {
-		
-		userDTO.setRoleDTO((new Role(ERole.ROLE_ADMIN)).toDTO());
-		userService.createUser(userDTO.toModel());
-		return "redirect:/admin/register";
-	}
-	
+
 	@GetMapping("/dashboard")
 	public String adminDashboard() {
 		return "admin/dashboard";

@@ -38,9 +38,6 @@ public class HomeController {
 	
 	@Autowired
 	private ProductService productService;
-
-	@Autowired
-	private UserService userService;
 	
 	@GetMapping("")
 	public String homeRedirect () {
@@ -57,107 +54,30 @@ public class HomeController {
 		List<ProductDTO> listAllProductDTO = productService.getAllProduct().stream()
 				.map(e -> e.toDTO()).collect(Collectors.toList()); 
 		
-		int pageNumber = listAllProductDTO.size()/8;
+		int pageNumber = listAllProductDTO.size() / 8 + 1;
 		
 		List<List<ProductDTO>> listPage = new ArrayList<List<ProductDTO>>();
 		int index = 0;
 		
 		for (int i = 0; i < pageNumber; i++) {
-			List<ProductDTO> res = listAllProductDTO.subList(index, index + 8);
+			List<ProductDTO> res;
+			if (index + 8 > listAllProductDTO.size()) {
+				res = listAllProductDTO.subList(index, listAllProductDTO.size());
+			} else {
+				res = listAllProductDTO.subList(index, index + 8);
+			}
 			listPage.add(res);
 			index += 8;
 		}
+		if (!listPage.isEmpty()) {
+			Collections.shuffle(listPage.get(id - 1));
+			model.addAttribute("productDTOs", listPage.get(id - 1));
+		}
 
-		Collections.shuffle(listPage.get(id - 1));
-		
 		model.addAttribute("pageNumbers", pageNumber);
 		model.addAttribute("categoryDTOs", categoryDTOs);
-		model.addAttribute("productDTOs", listPage.get(id - 1));
 
 
 		return "/client/home";
-	}
-
-	@GetMapping("/login")
-	public String loginGet (Model model) {
-
-		UserDTO userDTO = new UserDTO();
-
-		List<CategoryDTO> categoryDTOs = categoryService.getAllCategory()
-				.stream().map(e -> e.toDTO()).collect(Collectors.toList());
-
-		List<ProductDTO> productDTOS = productService.getAllProduct().stream()
-				.map(e -> e.toDTO()).collect(Collectors.toList());
-
-		model.addAttribute("userDTO", userDTO);
-		model.addAttribute("categoryDTOs", categoryDTOs);
-		model.addAttribute("productDTOs", productDTOS);
-
-		return "/client/login.html";
-	}
-	
-	@PostMapping("/login")
-	public String loginPost (Model model, HttpSession session,
-							 @ModelAttribute(name = "userDTO") UserDTO userDTO) {
-
-		User user = userService.getUserByEmail(userDTO.getEmail());
-
-		if (user == null){
-			model.addAttribute("error", "Username or password is invalid");
-			return "/client/login";
-		}
-
-		if (user.getRole().getName().equals(ERole.ROLE_USER) && new BCryptPasswordEncoder().matches(userDTO.getPassword(), user.getPassword())){
-			session.setAttribute("username", user.getUsername());
-			return "redirect:/";
-		}
-
-		model.addAttribute("error", "Username or password is invalid");
-		return "/client/login";
-
-	}
-
-	@GetMapping("/register")
-	public String registerGet (Model model) {
-
-		UserDTO userDTO = new UserDTO();
-
-		List<CategoryDTO> categoryDTOs = categoryService.getAllCategory()
-				.stream().map(e -> e.toDTO()).collect(Collectors.toList());
-
-		List<ProductDTO> productDTOS = productService.getAllProduct().stream()
-				.map(e -> e.toDTO()).collect(Collectors.toList());
-
-		model.addAttribute("userDTO", userDTO);
-		model.addAttribute("categoryDTOs", categoryDTOs);
-		model.addAttribute("productDTOs", productDTOS);
-
-		return "/client/register";
-	}
-
-	@PostMapping("/register")
-	public String registerPost (Model model, @ModelAttribute(name = "userDTO") UserDTO userDTO) {
-
-		userDTO.setRoleDTO((new Role(ERole.ROLE_USER)).toDTO());
-		
-		User user0 = userService.getUserByEmail(userDTO.getEmail());
-		User user1 = userService.getUserByUsername(userDTO.getUsername());
-		
-		if (user0 != null || user1 != null) {
-			model.addAttribute("error", "Email or username is existed in system");
-			return "/client/register";
-		}
-		
-		userService.createUser(userDTO.toModel());
-
-		return "redirect:/login";
-	}
-
-	@GetMapping("/logout")
-	public String logout(HttpSession session){
-
-		session.removeAttribute("username");
-
-		return "redirect:/";
 	}
 }

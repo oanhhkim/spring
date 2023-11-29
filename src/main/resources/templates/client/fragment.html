@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org">
+<html class="no-js" lang="zxx" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -37,17 +37,17 @@
 									<li th:if="${session.username == null}"><a
 										th:href="@{/login}">Profile</a></li>
 										-->
-									<li th:if="${session.username != null}"><a
+									<li sec:authorize="isAuthenticated()"><a
 										th:href="@{/my-cart}">My cart</a></li>
-									<li th:if="${session.username == null}"><a
+									<li sec:authorize="isAnonymous()"><a
 										th:href="@{/login}">My cart</a></li>
-									<li th:if="${session.username != null}"><a
+									<li sec:authorize="isAuthenticated()"><a
 										th:href="@{/my-order}">My order</a></li>
-									<li th:if="${session.username == null}"><a
+									<li sec:authorize="isAnonymous()"><a
 										th:href="@{/login}">My order</a></li>
-									<li th:if="${session.username != null}"><a
+									<li sec:authorize="isAuthenticated()"><a
 										th:href="@{/logout}">Logout</a></li>
-									<li th:if="${session.username == null}"><a
+									<li sec:authorize="isAnonymous()"><a
 										th:href="@{/login}">Login</a></li>
 								</ul>
 							</nav>
@@ -60,13 +60,13 @@
 										<span class="flaticon-search"></span>
 									</div>
 								</li>
-								<li th:if="${session.username == null}"><a
+								<li sec:authorize="isAnonymous()"><a
 									th:href="@{/login}"><span class="flaticon-user"></span></a></li>
-								<li th:if="${session.username != null}"><a
+								<li sec:authorize="isAuthenticated()"><a
 									th:href="@{/profile}"><span class="flaticon-user"></span></a></li>
-								<li th:if="${session.username == null}"><a
+								<li sec:authorize="isAnonymous()"><a
 									th:href="@{/login}"><span class="flaticon-shopping-cart"></span></a></li>
-								<li th:if="${session.username != null}"><a
+								<li sec:authorize="isAuthenticated()"><a
 									th:href="@{/my-cart}"><span class="flaticon-shopping-cart"></span></a></li>
 							</ul>
 						</div>
