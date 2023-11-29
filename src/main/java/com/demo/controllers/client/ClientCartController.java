@@ -1,6 +1,5 @@
 package com.demo.controllers.client;
 
-import com.demo.DTO.CartDTO;
 import com.demo.DTO.CartItemDTO;
 import com.demo.DTO.CategoryDTO;
 import com.demo.DTO.ProductDTO;
@@ -8,7 +7,11 @@ import com.demo.models.Cart;
 import com.demo.models.CartItem;
 import com.demo.models.Product;
 import com.demo.models.User;
-import com.demo.service.*;
+import com.demo.service.CartItemService;
+import com.demo.service.CartService;
+import com.demo.service.CategoryService;
+import com.demo.service.ProductService;
+import com.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,10 +47,10 @@ public class ClientCartController {
     private CartItemService cartItemService;
 
     @GetMapping("/my-cart")
-    public String getCartDetail (Model model, HttpSession session) {
+    public String getCartDetail (Model model, HttpSession session, Principal principal) {
 
-        User user = userService.getUserByUsername((String) session.getAttribute("username"));
-        
+        User user = userService.getUserByUsername(principal.getName());
+
         if (user == null)
         	return "redirect:/login";
         
@@ -78,11 +82,11 @@ public class ClientCartController {
     }
     
     @GetMapping("/add-to-cart")
-    public String addToCart (Model model, HttpSession session, 
+    public String addToCart (Model model, HttpSession session, Principal principal,
     			@RequestParam("id") Long id, 
     			@RequestParam("quantity") Long quantity) {
 
-        User user = userService.getUserByUsername((String) session.getAttribute("username"));
+        User user = userService.getUserByUsername(principal.getName());
 
         if (user == null)
         	return "redirect:/login";

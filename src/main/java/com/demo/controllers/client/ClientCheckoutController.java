@@ -1,14 +1,5 @@
 package com.demo.controllers.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.demo.DTO.CartItemDTO;
 import com.demo.DTO.CategoryDTO;
 import com.demo.DTO.OrderDTO;
@@ -26,13 +17,21 @@ import com.demo.service.OrderItemService;
 import com.demo.service.OrderService;
 import com.demo.service.ProductService;
 import com.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("")
@@ -60,9 +59,9 @@ public class ClientCheckoutController {
     private OrderItemService orderItemService;
 
     @GetMapping("/checkout")
-    public String getCheckout(Model model, HttpSession session) {
+    public String getCheckout(Model model, HttpSession session, Principal principal) {
     	
-    	User user = userService.getUserByUsername((String) session.getAttribute("username"));
+    	User user = userService.getUserByUsername(principal.getName());
 
         if (user == null)
         	return "redirect:/login";
@@ -98,10 +97,10 @@ public class ClientCheckoutController {
     }
     
     @PostMapping("/order")
-    public String createNewOrder(Model model, HttpSession session, 
+    public String createNewOrder(Model model, HttpSession session, Principal principal,
     		@ModelAttribute("orderDTO") OrderDTO orderDTO) {
     	
-    	User user = userService.getUserByUsername((String) session.getAttribute("username"));
+    	User user = userService.getUserByUsername(principal.getName());
         Cart cart = cartService.getCartByUser(user);
         
         List<CartItem> cartItems = cartItemService.getItemOfCart(cart);
@@ -135,9 +134,9 @@ public class ClientCheckoutController {
     }
     
     @GetMapping("/my-order")
-    public String listOrder(Model model, HttpSession session) {
+    public String listOrder(Model model, HttpSession session, Principal principal) {
     	
-    	User user = userService.getUserByUsername((String) session.getAttribute("username"));
+    	User user = userService.getUserByUsername(principal.getName());
 
         if (user == null)
         	return "redirect:/login";
@@ -156,10 +155,10 @@ public class ClientCheckoutController {
     }
     
     @GetMapping("/my-order/detail/{id}")
-    public String orderDetail(Model model, HttpSession session, 
+    public String orderDetail(Model model, HttpSession session, Principal principal,
     		@PathVariable("id") Long id) {
     	
-    	User user = userService.getUserByUsername((String) session.getAttribute("username"));
+    	User user = userService.getUserByUsername(principal.getName());
 
         if (user == null)
         	return "redirect:/login";

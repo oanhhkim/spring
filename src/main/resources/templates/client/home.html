@@ -70,12 +70,14 @@
 								class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
 								<div class="single-popular-items mb-50 text-center">
 									<div class="popular-img">
-										<img th:src="${productDTO.picture}" alt=""> <a
+										<img th:src="${productDTO.picture}" alt="">
+										<a
 											sec:authorize="isAnonymous()" th:href="@{/login}">
 											<div class="img-cap">
 												<span>Add to cart</span>
 											</div>
-										</a> <a sec:authorize="isAuthenticated()" th:href="@{/add-to-cart(id=${productDTO.id}, quantity=1)}">
+										</a>
+										<a sec:authorize="isAuthenticated()" th:href="@{/add-to-cart(id=${productDTO.id}, quantity=1)}">
 											<div class="img-cap">
 												<span>Add to cart</span>
 											</div>
