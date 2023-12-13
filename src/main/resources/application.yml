@@ -1,0 +1,11 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://happy_keller:5437/hello
+    username: postgres
+    password: kimoanh
+  application:
+    name: hello
+
+#server:
+#  port: 8081
